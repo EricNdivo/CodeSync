@@ -19,7 +19,6 @@ class Snippet(models.Model):
         return f'Snippet by {self.owner.username} - {self.language}'
 
 
-
 class Rating(models.Model):
     snippet = models.ForeignKey(Snippet, related_name='ratings', on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
