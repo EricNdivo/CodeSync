@@ -17,3 +17,15 @@ class Snippet(models.Model):
 
     def __str__(self):
         return f'Snippet by {self.owner.username} - {self.language}'
+
+
+
+class Rating(models.Model):
+    snippet = models.ForeignKey(Snippet, related_name='ratings', on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Comment by {self.author.username} on {self.snippet.owner.username}\'s snippet'
+
