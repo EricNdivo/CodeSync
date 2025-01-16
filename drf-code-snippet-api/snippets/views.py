@@ -32,3 +32,5 @@ class SnippetViewSet(viewsets.ModelViewSet):
         snippet = self.get_object()
         snippet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
