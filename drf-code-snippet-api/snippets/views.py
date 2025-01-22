@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Snippet
-from .serializers import SnippetSerializer
+from .serializers import SnippetSerializer, CommentSerializer
 
 class SnippetViewSet(viewsets.ModelViewSet):
     queryset = Snippet.objects.all()
@@ -32,5 +32,24 @@ class SnippetViewSet(viewsets.ModelViewSet):
         snippet = self.get_object()
         snippet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(detail=True, methods=['post'])
+    def comment(self, request, pk=None):
+        snippet = self.get_object()
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(author=request.user, snippet=snippet)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.error, status=status.HTTP_400_BAD_REQUEST)
+
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+
+
+
+
+
     
 

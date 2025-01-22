@@ -28,3 +28,12 @@ class Rating(models.Model):
     def __str__(self):
         return f'Comment by {self.author.username} on {self.snippet.owner.username}\'s snippet'
 
+class Comment(models.Model):
+    snippet = models.ForeignKey(Snippet, related_name='comments', on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+    def __str__(self):
+        return f'comment by {self.author.username} on {self.snippet.title}'
